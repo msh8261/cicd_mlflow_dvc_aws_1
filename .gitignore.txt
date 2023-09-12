@@ -22,7 +22,7 @@
 
 # local file and folders #
 ##############################
-/data/raw
+/data/raw/*
 /models
 /outputs
 /results
