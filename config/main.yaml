@@ -1,0 +1,27 @@
+# defaults:
+#   - process:
+#   - model: 
+ 
+data:
+  train: 'data/raw/Chest_X_Ray/train'
+  val: 'data/raw/Chest_X_Ray/val'
+  test: 'data/raw/Chest_X_Ray/test'
+
+
+model_name: 'chest_disease_classification'
+
+MLFLOW_EXPERIMENT_NAME: 'chest_disease_classification'
+MLFLOW_TRACKING_URI: "sqlite:///mlflow.db"
+
+
+
+
+
+
+
+
+
+
+
+
+
