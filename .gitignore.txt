@@ -1,0 +1,28 @@
+# complied source#
+####################
+.py
+.File
+.pkl
+.csv
+
+
+# packages #
+####################
+.gz
+.rar
+.zip
+
+
+# database #
+##################
+.log
+.sql
+.sqlite
+
+
+# local file and folders #
+##############################
+/data/raw
+/models
+/outputs
+/results

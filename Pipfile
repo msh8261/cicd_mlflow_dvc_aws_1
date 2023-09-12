@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pylint = "*"
+pytest = "*"
+
+[dev-packages]
+pre-commit = "*"
+mlflow = "*"
+dvc = {extras = ["s3"], version = "*"}
+dvc-s3 = "*"
+prefect = "*"
+hydra-core = "*"
+typing = "*"
+pandas = "*"
+
+[requires]
+python_version = "3.11"

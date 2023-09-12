@@ -1,0 +1,5 @@
+data:
+  path: data/raw/Chest_X_Ray
+  train: data/raw/Chest_X_Ray/train
+  val: data/raw/Chest_X_Ray/val
+  test: data/raw/Chest_X_Ray/test

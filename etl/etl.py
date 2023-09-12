@@ -1,44 +1,52 @@
-import awswrangler as wr
+import os
+import sys
+sys.path.insert(0, '..')
 from datetime import datetime
 import pandas as pd
-from prefect import task, flow, get_run_logger
-import requests
+from prefect import task, flow
+import logging
+from typing import Tuple, List
+import hydra
+from hydra import initialize, compose
+
+
+logging.basicConfig(level=logging.NOTSET)
+
+# global initialization
+with initialize(version_base=None, config_path='config'):
+    config = compose(config_name='main', overrides=['etl=etl1'])
 
 
 @task
-def extract_current_prices():
-    url = "https://min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,REP,DASH&tsyms=USD"
-    r = requests.get(url)
-    return r.json()
+def extract_data():
+    '''Load data from'''
+    logging.info('Extracting data')
+    return None
 
 
 @task
-def transform_current_prices(json_data: dict) -> pd.DataFrame:
-    df = pd.DataFrame(json_data)
-    df["TIME"] = datetime.utcnow()
-    return df.reset_index(drop=True)
+def transform_data():
+    '''Transform data'''
+    logging.info('Transforming data')
+    return None
 
 
 @task
-def load_current_prices(df: pd.DataFrame):
-    wr.s3.to_parquet(
-        df=df,
-        path="s3://prefectdata/crypto/",
-        dataset=True,
-        mode="append",
-        database="default",
-        table="crypto",
-    )
-    logger = get_run_logger()
-    logger.info("Data loaded to a data lake! 🎉")
+def load_data(data):
+    '''Loading data to ...'''
+    logging.info('data loaded to directory.')
 
 
 @flow
-def crypto_prices_etl():
-    raw_data = extract_current_prices()
-    data = transform_current_prices(raw_data)
-    load_current_prices(data)
+def data_etl():
+    '''ETL data'''
+    logging.info('ETL starting...')
+    raw_data = extract_data()
+    data = transform_data()
+    load_data(data)
+    logging.info('ETL ended.')
 
 
-def handler(event, context):
-    crypto_prices_etl()
+
+if __name__ == "__main__":
+    data_etl()

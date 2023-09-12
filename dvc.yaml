@@ -1,0 +1,10 @@
+stages:
+  etl:
+    cmd: python etl/etl.py
+    deps:
+      - data/raw/Chest_X_Ray/train
+      - data/raw/Chest_X_Ray/val
+      - data/raw/Chest_X_Ray/test
+
+  test:
+    cmd: pipenv run pytest tests/
