@@ -1,28 +1,31 @@
-import os
+"""module for test etl module."""
 import sys
-sys.path.insert(0, '..')
-from etl.etl import  extract_data, transform_data, load_data ,data_etl
 
+# import os
+from etl.etl import data_etl, extract_data, load_data, transform_data
+
+sys.path.insert(0, "..")
 
 
 def test_extract_data():
-    '''test extracting data'''
-    extract_data()
-    assert 1 == 1
+    """test extract data."""
+    data = extract_data.fn()
+    assert data == ["yes"]
+
 
 def test_transform_data():
-    '''test transforming data'''
-    transform_data()
-    assert 1 == 1
+    """test transform data."""
+    data = transform_data.fn()
+    assert data == ("yes", "no")
 
 
 def test_load_data():
-    '''test loading data'''
-    load_data('data')
-    assert 1 == 1
+    """test load data."""
+    data = load_data.fn("data")
+    assert data == "data"
 
 
 def test_data_etl():
-    '''test etl pipline'''
+    """test etl pipline."""
     data_etl()
-    assert 1 == 1
+    # assert 'yes' == 'yes'

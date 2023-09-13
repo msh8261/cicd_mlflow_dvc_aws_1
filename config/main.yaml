@@ -1,6 +1,6 @@
 defaults:
-  - etl:
-
+  - _self_
+  - etl: etl1
 
 
 MLFLOW_EXPERIMENT_NAME: 'chest_disease_classification'

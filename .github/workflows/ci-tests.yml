@@ -49,13 +49,6 @@ jobs:
           pipenv install --deploy --dev
 
       #----------------------------------------------
-      #       check with lint
-      #----------------------------------------------
-      # - name: Lint
-      #   working-directory: "./"
-      #   run: poetry run pylint --recursive=y .
-
-      #----------------------------------------------
       #       Pull from dvc
       #----------------------------------------------
       - name: Pull data and model

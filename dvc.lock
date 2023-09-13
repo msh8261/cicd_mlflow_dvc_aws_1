@@ -1,0 +1,22 @@
+schema: '2.0'
+stages:
+  etl:
+    cmd: python etl/etl.py
+    deps:
+    - path: data/raw/Chest_X_Ray/test
+      hash: md5
+      md5: 72ec4c9b6def6d9ff4ffffd2421f5ae0.dir
+      size: 11673573
+      nfiles: 46
+    - path: data/raw/Chest_X_Ray/train
+      hash: md5
+      md5: ec5e43aa2879489d5142655a9a962db8.dir
+      size: 16466436
+      nfiles: 100
+    - path: data/raw/Chest_X_Ray/val
+      hash: md5
+      md5: 8e0dd6bab3d043a9c9881f836ccae66e.dir
+      size: 21654131
+      nfiles: 88
+  test:
+    cmd: pipenv run pytest tests/
