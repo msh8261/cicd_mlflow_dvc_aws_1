@@ -7,19 +7,20 @@ repos:
     -   id: check-yaml
     -   id: check-added-large-files
 
-# -   repo: https://github.com/ambv/black
-#     rev: 22.12.0
-#     hooks:
-#     - id: black
-#       language_version: python3.11
-#     - id: black-jupyter
-#       language_version: python3.11
+-   repo: https://github.com/ambv/black
+    rev: 23.9.1
+    hooks:
+    - id: black
+      language_version: python3.11
+    - id: black-jupyter
+      language_version: python3.11
 
 -   repo: https://github.com/pycqa/flake8
     rev: 6.0.0
     hooks:
     - id: flake8
 
+## for isort use locally by runnig > isort . to correct all files imports
 # -   repo: https://github.com/pycqa/isort
 #     rev: 5.12.0
 #     hooks:
