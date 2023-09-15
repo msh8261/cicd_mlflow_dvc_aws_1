@@ -79,11 +79,10 @@ if __name__ == "__main__":
     logger.info(f"Lifecycle_stage: {experiment.lifecycle_stage}")
 
     create_parent_directory(config.data.train.dir_output)
-    training_output_dir = os.path.join(
-        config.data.train.dir_output, model_name
-    )
+    training_output_dir = os.path.join(config.model_dir_output, model_name)
+    create_parent_directory(training_output_dir)
     checkpoints_dir = os.path.join(training_output_dir, "checkpoints")
-
+    training_output_dir(checkpoints_dir)
     dataset_dvc_fp = config.etl.dataset_dvc
     dataset_version = get_dvc_rev(dataset_dvc_fp)
 
@@ -187,6 +186,7 @@ if __name__ == "__main__":
         mlflow.log_artifact(dataset_dvc_fp)
 
         trainer.fit(model, dataloader_train, dataloader_validation)
+        trainer.save(config.ml.model_save_name)
         mlflow.log_artifacts(training_output_dir)
 
     print_auto_logged_info(mlflow.get_run(run_id=run.info.run_id))

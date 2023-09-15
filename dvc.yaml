@@ -1,19 +1,23 @@
 stages:
   etl:
     cmd: python etl/etl.py
+    params:
+        - config/etl/etl1.yaml:
     deps:
+      - etl/etl.py
       - data/raw/Chest_X_Ray/train
       - data/raw/Chest_X_Ray/val
       - data/raw/Chest_X_Ray/test
-      - data/dst
-    params:
-      - config/etl/etl1.yaml
-
+    outs:
+      - data/final
   train:
     cmd: python ml/train.py
-    deps:
-      - data/raw/Chest_X_Ray/dst
     params:
-        - config/ml/ml1.yaml
+        - config/ml/ml1.yaml:
+    deps:
+      - data/final
+      - ml/train.py
+    outs:
+      - experiments/training_outputs/chest_diseases_pt_cnn.pt
   test:
     cmd: pipenv run pytest tests/

@@ -1,5 +1,6 @@
 
 model_name: chest_diseases_pt_cnn
+model_save_name: chest_diseases_pt_cnn.pt
 model_architecture: mobilenetv2
 
 params: {

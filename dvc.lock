@@ -3,20 +3,33 @@ stages:
   etl:
     cmd: python etl/etl.py
     deps:
+    - path: data/dst
+      hash: md5
+      md5: e48657d3f4ff4b1cc64053c3950f1b44.dir
+      size: 410919
+      nfiles: 3
     - path: data/raw/Chest_X_Ray/test
       hash: md5
-      md5: 72ec4c9b6def6d9ff4ffffd2421f5ae0.dir
-      size: 11673573
-      nfiles: 46
+      md5: 227ead8b20e5b527a0900911f54bbd19.dir
+      size: 79069091
+      nfiles: 625
     - path: data/raw/Chest_X_Ray/train
       hash: md5
-      md5: ec5e43aa2879489d5142655a9a962db8.dir
-      size: 16466436
-      nfiles: 100
+      md5: ec967913ebbc3c55b412f60fdfc532b4.dir
+      size: 1154764220
+      nfiles: 5219
     - path: data/raw/Chest_X_Ray/val
       hash: md5
-      md5: 8e0dd6bab3d043a9c9881f836ccae66e.dir
-      size: 21654131
-      nfiles: 88
+      md5: 624409d747735cc7ba24b0f995d52026.dir
+      size: 3061171
+      nfiles: 19
+    params:
+      config/etl/etl1.yaml:
+        dataset_dvc: chest_diseases.dvc
+        img_size: (160, 160)
+        label_names:
+          0: Normal
+          1: Viral Pneumonia
+          2: Bacterial Pneumonia
   test:
     cmd: pipenv run pytest tests/
