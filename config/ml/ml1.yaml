@@ -1,0 +1,29 @@
+train:
+  dir_output: ./experiments/training_outputs
+  file: data/dst/train.csv
+
+model_name: chest_diseases_pt_cnn
+model_architecture: mobilenetv2
+
+params: {
+    "model": model_architecture,
+    "dataset_version": dataset_version,
+    "seed": seed,
+    "batch_size": 32,
+    "num_workers": 8,
+    "gpus": gpus,
+    "precision": 32,
+    "max_epochs": 25,
+    "dropout": 0.2,
+    "lr": 1e-1,
+    "use_imagenet_pretrained_weights": use_imagenet_pretrained_weights,
+    "early_stopping_patience": 3,
+}
+
+val:
+  dir_output: ./experiments/val_outputs
+  file: data/dst/val.csv
+
+test:
+  dir_output: ./experiments/test_outputs
+  file: data/dst/test.csv

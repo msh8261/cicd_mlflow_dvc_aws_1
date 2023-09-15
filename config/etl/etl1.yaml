@@ -1,10 +1,18 @@
 data:
   path: data/raw/Chest_X_Ray
-  train_path: data/raw/Chest_X_Ray/train
-  val_path: data/raw/Chest_X_Ray/val
-  test_path: data/raw/Chest_X_Ray/test
-  path_dst: data/raw/Chest_X_Ray/dst
+  path_dst: data/dst
+  train:
+    name: train.csv
+    path: data/raw/Chest_X_Ray/train
+  val:
+    name: val.csv
+    path: data/raw/Chest_X_Ray/val
+  test:
+    name: test.csv
+    path: data/raw/Chest_X_Ray/test
 
+
+dataset_dvc: "chest_diseases.dvc"
 
 label_names: {0 : 'Normal' , 1: 'Viral Pneumonia', 2 : 'Bacterial Pneumonia'}
 img_size: (160, 160)

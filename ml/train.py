@@ -58,10 +58,10 @@ if __name__ == "__main__":
     # Create an experiment. By default, if not specified, the "default" experiment is used. It is recommended to not use
     # the default experiment and explicitly set up your own for better readability and tracking experience.
     client = MlflowClient()
-    experiment_name = "Lung diseases classification"
-    model_architecture = "mobilenetv2"
+    experiment_name = config.mlflow_experiment_name
+    model_architecture = config.ml.model_architecture
     timestamp = time.strftime("%Y%m%d-%H%M%S")
-    model_name = f"Lung_diseases_pt_cnn_{timestamp}"
+    model_name = f"{config.ml.model_name}_{timestamp}"
 
     run_name = model_name
     try:
@@ -78,35 +78,21 @@ if __name__ == "__main__":
     logger.info(f"Tags: {experiment.tags}")
     logger.info(f"Lifecycle_stage: {experiment.lifecycle_stage}")
 
-    training_output_dir = os.path.join(
-        "./experiments/training_outputs", model_name
-    )
+    create_parent_directory(config.ml.train.dir_output)
+    training_output_dir = os.path.join(config.ml.train.dir_output, model_name)
     checkpoints_dir = os.path.join(training_output_dir, "checkpoints")
 
-    dataset_dvc_fp = "Lung_Diseases.dvc"
+    dataset_dvc_fp = config.etl.dataset_dvc
     dataset_version = get_dvc_rev(dataset_dvc_fp)
 
     use_imagenet_pretrained_weights = True
 
     gpus = 1 if torch.cuda.is_available() else 0
 
-    params = {
-        "model": model_architecture,
-        "dataset_version": dataset_version,
-        "seed": seed,
-        "batch_size": 32,
-        "num_workers": 8,
-        "gpus": gpus,
-        "precision": 32,
-        "max_epochs": 25,
-        "dropout": 0.2,
-        "lr": 1e-1,
-        "use_imagenet_pretrained_weights": use_imagenet_pretrained_weights,
-        "early_stopping_patience": 3,
-    }
+    params = config.ml.params
 
     # initialize the data set splits
-    df_train = pd.read_csv("data_splits/train.csv")
+    df_train = pd.read_csv(config.ml.train.file)
     image_size = (160, 160)
     transform_train, transform_val = get_preprocessor(
         image_size, use_imagenet_pretrained_weights
@@ -124,7 +110,7 @@ if __name__ == "__main__":
         num_workers=params["num_workers"],
     )
 
-    df_val = pd.read_csv("data_splits/val.csv")
+    df_val = pd.read_csv(config.ml.val.file)
     dataset_validation = XrayDataset(
         df_val,
         transform_val,

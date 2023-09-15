@@ -5,7 +5,7 @@ stages:
       - data/raw/Chest_X_Ray/train
       - data/raw/Chest_X_Ray/val
       - data/raw/Chest_X_Ray/test
-      - data/raw/Chest_X_Ray/dst
+      - data/raw/dst
     params:
         - config/etl/etl1.yaml
 

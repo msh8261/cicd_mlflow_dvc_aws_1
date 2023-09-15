@@ -1,7 +1,8 @@
 defaults:
   - _self_
   - etl: etl1
+  - ml: ml1
 
 
-MLFLOW_EXPERIMENT_NAME: 'chest_disease_classification'
-MLFLOW_TRACKING_URI: "sqlite:///mlflow.db"
+mlflow_experiment_name: chest_disease_classification
+mlflow_tracking_uri: "sqlite:///mlflow.db"

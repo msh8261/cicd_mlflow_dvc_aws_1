@@ -19,16 +19,23 @@ config = load_config.fn()
 def test_path_exist():
     """test path of files exist."""
     assert os.path.exists(config.etl.data.path)
-    assert os.path.exists(config.etl.data.train_path)
-    assert os.path.exists(config.etl.data.val_path)
-    assert os.path.exists(config.etl.data.test_path)
+    assert os.path.exists(config.etl.data.train.path)
+    assert os.path.exists(config.etl.data.val.path)
+    assert os.path.exists(config.etl.data.test.path)
+
+
+def test_file_name():
+    """test the name and format of data files."""
+    assert config.etl.data.train.name == "train.csv"
+    assert config.etl.data.val.name == "val.csv"
+    assert config.etl.data.test.name == "test.csv"
 
 
 def test_extract_data():
     """test extract data."""
-    df1 = extract_data.fn(config.etl.data.train_path)
-    df2 = extract_data.fn(config.etl.data.val_path)
-    df3 = extract_data.fn(config.etl.data.test_path)
+    df1 = extract_data.fn(config.etl.data.train.path)
+    df2 = extract_data.fn(config.etl.data.val.path)
+    df3 = extract_data.fn(config.etl.data.test.path)
     assert type(df1) == pd.DataFrame
     assert type(df2) == pd.DataFrame
     assert type(df3) == pd.DataFrame
