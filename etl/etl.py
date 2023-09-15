@@ -43,14 +43,14 @@ def load_data(df: pd.DataFrame, path: string, name_file: string) -> None:
 def main(config) -> None:
     """ETL data."""
     logging.info("ETL starting...")
-    train_df = extract_data(config.etl.data.train.path)
-    val_df = extract_data(config.etl.data.val.path)
-    test_df = extract_data(config.etl.data.test.path)
+    train_df = extract_data(config.data.train.path)
+    val_df = extract_data(config.data.val.path)
+    test_df = extract_data(config.data.test.path)
     transform_data()
-    create_parent_directory(config.etl.data.path_dst)
-    load_data(train_df, config.etl.data.path_dst, config.etl.daat.train.name)
-    load_data(val_df, config.etl.data.path_dst, config.etl.daat.val.name)
-    load_data(test_df, config.etl.data.path_dst, config.etl.daat.test.name)
+    create_parent_directory(config.data.path_dst)
+    load_data(train_df, config.data.path_dst, config.data.train.name)
+    load_data(val_df, config.data.path_dst, config.data.val.name)
+    load_data(test_df, config.data.path_dst, config.data.test.name)
     message = "ETL ended."
     logging.info(message)
 

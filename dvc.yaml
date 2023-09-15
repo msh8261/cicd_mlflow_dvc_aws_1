@@ -5,9 +5,9 @@ stages:
       - data/raw/Chest_X_Ray/train
       - data/raw/Chest_X_Ray/val
       - data/raw/Chest_X_Ray/test
-      - data/raw/dst
+      - data/dst
     params:
-        - config/etl/etl1.yaml
+      - config/etl/etl1.yaml
 
   train:
     cmd: python ml/train.py

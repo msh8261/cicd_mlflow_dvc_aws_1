@@ -78,8 +78,10 @@ if __name__ == "__main__":
     logger.info(f"Tags: {experiment.tags}")
     logger.info(f"Lifecycle_stage: {experiment.lifecycle_stage}")
 
-    create_parent_directory(config.ml.train.dir_output)
-    training_output_dir = os.path.join(config.ml.train.dir_output, model_name)
+    create_parent_directory(config.data.train.dir_output)
+    training_output_dir = os.path.join(
+        config.data.train.dir_output, model_name
+    )
     checkpoints_dir = os.path.join(training_output_dir, "checkpoints")
 
     dataset_dvc_fp = config.etl.dataset_dvc
@@ -92,7 +94,7 @@ if __name__ == "__main__":
     params = config.ml.params
 
     # initialize the data set splits
-    df_train = pd.read_csv(config.ml.train.file)
+    df_train = pd.read_csv(config.data.train.file)
     image_size = (160, 160)
     transform_train, transform_val = get_preprocessor(
         image_size, use_imagenet_pretrained_weights
@@ -110,7 +112,7 @@ if __name__ == "__main__":
         num_workers=params["num_workers"],
     )
 
-    df_val = pd.read_csv(config.ml.val.file)
+    df_val = pd.read_csv(config.data.val.file)
     dataset_validation = XrayDataset(
         df_val,
         transform_val,
