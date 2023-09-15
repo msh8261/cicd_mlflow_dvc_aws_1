@@ -19,6 +19,7 @@ config = load_config.fn()
 def test_path_exist():
     """test path of files exist."""
     assert os.path.exists(config.data.path)
+    assert os.path.exists(config.data.path_dst)
     assert os.path.exists(config.data.train.path)
     assert os.path.exists(config.data.val.path)
     assert os.path.exists(config.data.test.path)
