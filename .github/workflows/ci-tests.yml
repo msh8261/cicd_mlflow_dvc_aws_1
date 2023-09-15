@@ -51,18 +51,20 @@ jobs:
       #----------------------------------------------
       #       Pull from dvc
       #----------------------------------------------
-      - name: Pull data and model
-        run: pipenv run dvc pull --run-cache
+      - name: Pull data from DVC
+        run: |
+          pipenv run dvc remote modify --local myremote access-key-id ${{env.AWS_ACCESS_KEY_ID}}
+          pipenv run dvc remote modify --local myremote secret-access-key ${{env.AWS_SECRET_ACCESS_KEY}}
+          pipenv run dvc pull --run-cache
 
       #----------------------------------------------
       #       Run Pipline
       #----------------------------------------------
-      - name: Run pipline
-        env:
-          access-key-id: ${{env.AWS_ACCESS_KEY_ID}}
-          secret-access-key: ${{env.AWS_SECRET_ACCESS_KEY}}
-        run: pipenv run dvc exp run evaluate
+      - name: Run the pipeline with DVC
+        run: pipenv run dvc repro
 
+      - name: Push the outcomes to DVC remote storage
+        run: pipenv run dvc push
       #----------------------------------------------
       #       set environment
       #----------------------------------------------

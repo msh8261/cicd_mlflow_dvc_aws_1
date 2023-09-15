@@ -3,17 +3,39 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
 
-[dev-packages]
-pre-commit = "*"
+[[source]]
+url = "https://download.pytorch.org/whl/cu116"
+verify_ssl = true
+name = "downloadpytorch"
+
+[[source]]
+url = "https://download.pytorch.org/whl/cu116"
+verify_ssl = true
+name = "downloadpytorch"
+
+[[source]]
+url = "https://download.pytorch.org/whl/cu116"
+verify_ssl = true
+name = "downloadpytorch"
+
+[packages]
 mlflow = "*"
-dvc = {extras = ["s3"], version = "*"}
-dvc-s3 = "*"
 prefect = "*"
+dvc = "*"
 hydra-core = "*"
-typing = "*"
-pandas = "*"
+pre-commit = "*"
 pytest = "*"
-pylint = "*"
+isort = "*"
+pytorch-lightning = "==1.5.1"
+pandas = "*"
+typing = "*"
+loguru = "*"
+pillow = "*"
+torch = "*"
+torchvision = "*"
+torchaudio = "*"
+
+[dev-packages]
 
 [requires]
 python_version = "3.11"

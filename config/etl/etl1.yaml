@@ -1,5 +1,10 @@
 data:
   path: data/raw/Chest_X_Ray
-  train: data/raw/Chest_X_Ray/train
-  val: data/raw/Chest_X_Ray/val
-  test: data/raw/Chest_X_Ray/test
+  train_path: data/raw/Chest_X_Ray/train
+  val_path: data/raw/Chest_X_Ray/val
+  test_path: data/raw/Chest_X_Ray/test
+  path_dst: data/raw/Chest_X_Ray/dst
+
+
+label_names: {0 : 'Normal' , 1: 'Viral Pneumonia', 2 : 'Bacterial Pneumonia'}
+img_size: (160, 160)

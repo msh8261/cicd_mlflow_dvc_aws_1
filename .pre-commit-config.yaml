@@ -20,36 +20,30 @@ repos:
     hooks:
     - id: flake8
 
-## for isort use locally by runnig > isort . to correct all files imports
-# -   repo: https://github.com/pycqa/isort
-#     rev: 5.12.0
+# for isort use locally by runnig > isort . to correct all files imports
+-   repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+    -   id: isort
+
+-   repo: https://github.com/econchick/interrogate
+    rev: 1.4.0
+    hooks:
+    - id: interrogate
+      args: [-vv, -i, --fail-under=80]
+
+# -   repo: local
 #     hooks:
-#     -   id: isort
-
--   repo: https://github.com/pycqa/pydocstyle
-    rev: '6.3.0'
-    hooks:
-    -   id: pydocstyle
-        args: ['.']
-
--   repo: https://github.com/hadialqattan/pycln
-    rev: 'v2.1.5'
-    hooks:
-    -   id: pycln
-        args: ['.']
-
--   repo: local
-    hooks:
-    -   id: pylint
-        name: pylint
-        entry: pylint
-        language: system
-        types: [python]
-        args: [
-            "-rn", # Only display messages
-            "-sn", # Don't display the score
-            "--recursive=y"
-        ]
+#     -   id: pylint
+#         name: pylint
+#         entry: pylint
+#         language: system
+#         types: [python]
+#         args: [
+#             "-rn", # Only display messages
+#             "-sn", # Don't display the score
+#             #"--recursive=y"
+#         ]
 
 -   repo: local
     hooks:
