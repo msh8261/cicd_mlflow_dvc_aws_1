@@ -15,7 +15,7 @@ class XrayDataset(Dataset):
         """return length of the dataset."""
         return len(self.imgs_path)
 
-    def __get_item__(self, idx):
+    def __getitem__(self, idx):
         """return image, label and path of image corresponding."""
         img_path = self.imgs_path[idx]
         img = Image.open(img_path).convert("RGB")

@@ -24,7 +24,7 @@ sys.path.append(
 )
 
 
-config = load_config()
+config = load_config.fn()
 
 
 def print_auto_logged_info(r):
@@ -78,31 +78,30 @@ if __name__ == "__main__":
     logger.info(f"Tags: {experiment.tags}")
     logger.info(f"Lifecycle_stage: {experiment.lifecycle_stage}")
 
-    create_parent_directory(config.data.train.dir_output)
+    os.makedirs(config.model_dir_output, exist_ok=True)
     training_output_dir = os.path.join(config.model_dir_output, model_name)
-    create_parent_directory(training_output_dir)
     checkpoints_dir = os.path.join(training_output_dir, "checkpoints")
-    training_output_dir(checkpoints_dir)
-    dataset_dvc_fp = config.etl.dataset_dvc
-    dataset_version = get_dvc_rev(dataset_dvc_fp)
-
-    use_imagenet_pretrained_weights = True
+    # training_output_dir(checkpoints_dir)
+    # dataset_dvc_fp = config.dataset_dvc
+    # dataset_version = get_dvc_rev(dataset_dvc_fp)
 
     gpus = 1 if torch.cuda.is_available() else 0
 
     params = config.ml.params
 
     # initialize the data set splits
-    df_train = pd.read_csv(config.data.train.file)
+    df_train = pd.read_csv(
+        os.path.join(config.data.path_dst, config.data.train.name)
+    )
     image_size = (160, 160)
     transform_train, transform_val = get_preprocessor(
-        image_size, use_imagenet_pretrained_weights
+        image_size, config.ml.use_imagenet_pretrained_weights
     )
     dataset_train = XrayDataset(
         df_train,
         transform_train,
         image_size,
-        use_imagenet_pretrained_weights,
+        config.ml.use_imagenet_pretrained_weights,
     )
     dataloader_train = DataLoader(
         dataset_train,
@@ -111,12 +110,14 @@ if __name__ == "__main__":
         num_workers=params["num_workers"],
     )
 
-    df_val = pd.read_csv(config.data.val.file)
+    df_val = pd.read_csv(
+        os.path.join(config.data.path_dst, config.data.val.name)
+    )
     dataset_validation = XrayDataset(
         df_val,
         transform_val,
         image_size,
-        use_imagenet_pretrained_weights,
+        config.ml.use_imagenet_pretrained_weights,
     )
     dataloader_validation = DataLoader(
         dataset_validation,
@@ -124,12 +125,12 @@ if __name__ == "__main__":
         num_workers=params["num_workers"],
     )
 
-    params["train_size"] = len(dataset_train)
-    params["val_size"] = len(dataset_validation)
+    # params["train_size"] = len(dataset_train)
+    # params["val_size"] = len(dataset_validation)
 
     # model
     model = XrayClassifier(
-        imagenet_weights=use_imagenet_pretrained_weights,
+        imagenet_weights=config.ml.use_imagenet_pretrained_weights,
         dropout=params["dropout"],
         lr=params["lr"],
     )
@@ -182,11 +183,10 @@ if __name__ == "__main__":
         # log training parameters
         mlflow.log_params(params)
 
-        # save dataset's dvc file
-        mlflow.log_artifact(dataset_dvc_fp)
+        # # save dataset's dvc file
+        # mlflow.log_artifact(dataset_dvc_fp)
 
         trainer.fit(model, dataloader_train, dataloader_validation)
-        trainer.save(config.ml.model_save_name)
         mlflow.log_artifacts(training_output_dir)
 
     print_auto_logged_info(mlflow.get_run(run_id=run.info.run_id))

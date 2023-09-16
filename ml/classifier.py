@@ -1,14 +1,10 @@
 """class of classifier."""
 import pytorch_lightning as pl
 import torch
+import torchmetrics
 from torch.nn import functional as F
 
 from ml.mobilenet_model import CustomMobileNetv2
-
-
-def get_accuracy(y_pred: torch.Tensor, y_test: torch.Tensor):
-    """calculate the accuracy of the model."""
-    return ((y_pred > 0.0) == y_test).float().mean()
 
 
 class XrayClassifier(pl.LightningModule):
@@ -20,6 +16,7 @@ class XrayClassifier(pl.LightningModule):
             num_class=3, pretrained=imagenet_weights, dropout=dropout
         )
         self.lr = lr
+        self.critrion = torch.nn.CrossEntropyLoss()
 
     def forward(self, x):
         """apply classifier."""
@@ -27,17 +24,25 @@ class XrayClassifier(pl.LightningModule):
 
     def configure_optimizers(self):
         """configure the optimizer."""
-        return torch.optim.Adam(self.parameters(), self.lr)
+        return torch.optim.Adam(
+            self.parameters(), self.lr, weight_decay=0.00001
+        )
 
     def __compute_batch_loss(self, batch):
         """compute the loss and accuracy and return it."""
         x, y, _ = batch
         y = y.unsqueeze(axis=1)
-        x = self.classifier(x)
-        weights = torch.Tensor([1.0, 1.0, 1.0])
-        loss = F.cross_entropy(x, y, weights)
-        batch_size = len(x)
-        acc = get_accuracy(x, y)
+        # y = y.long()
+        cls = self(x)
+        cls = F.softmax(cls.float(), dim=1)
+        y_pred = cls.data.max(dim=1)[1].unsqueeze(axis=1)
+        loss = self.critrion(y_pred.float(), y.float())
+        loss.requires_grad = True
+        loss.backward()
+        batch_size = len(y_pred)
+        acc = torchmetrics.functional.accuracy(
+            y_pred, y, task="multiclass", num_classes=3
+        )
         return loss, acc, batch_size
 
     def training_step(self, train_batch, batch_idx):

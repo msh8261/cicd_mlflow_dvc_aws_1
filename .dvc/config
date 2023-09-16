@@ -1,5 +1,4 @@
 [core]
     remote = myremote
 ['remote "myremote"']
-    url = s3://mybucket
-    region = eu-north-1
+    url = s3://bucket-cicd-2023

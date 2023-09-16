@@ -1,0 +1,6 @@
+artifact_location: file:///C:/Users/mohsen/Desktop/Postdoc_Upa/packages/dataScience/cicd/projects/cicd_mlflow_dvc_aws/cicd_mlflow_dvc_aws_1/mlruns/915976063423053130
+creation_time: 1694787210099
+experiment_id: '915976063423053130'
+last_update_time: 1694787210099
+lifecycle_stage: active
+name: chest_disease_classification

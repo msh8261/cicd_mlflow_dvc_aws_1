@@ -1,5 +1,4 @@
 
-dataset_dvc: "chest_diseases.dvc"
 
 label_names: {0 : 'Normal' , 1: 'Viral Pneumonia', 2 : 'Bacterial Pneumonia'}
 img_size: (160, 160)

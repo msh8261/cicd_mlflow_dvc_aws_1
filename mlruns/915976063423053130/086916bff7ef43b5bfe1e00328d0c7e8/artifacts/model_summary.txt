@@ -1,0 +1,222 @@
+    | Name                                 | Type                 | Params
+--------------------------------------------------------------------------------
+0   | classifier                           | CustomMobileNetv2    | 2.2 M
+1   | classifier.mnet                      | MobileNetV2          | 2.2 M
+2   | classifier.mnet.features             | Sequential           | 2.2 M
+3   | classifier.mnet.features.0           | Conv2dNormActivation | 928
+4   | classifier.mnet.features.0.0         | Conv2d               | 864
+5   | classifier.mnet.features.0.1         | BatchNorm2d          | 64
+6   | classifier.mnet.features.0.2         | ReLU6                | 0
+7   | classifier.mnet.features.1           | InvertedResidual     | 896
+8   | classifier.mnet.features.1.conv      | Sequential           | 896
+9   | classifier.mnet.features.1.conv.0    | Conv2dNormActivation | 352
+10  | classifier.mnet.features.1.conv.0.0  | Conv2d               | 288
+11  | classifier.mnet.features.1.conv.0.1  | BatchNorm2d          | 64
+12  | classifier.mnet.features.1.conv.0.2  | ReLU6                | 0
+13  | classifier.mnet.features.1.conv.1    | Conv2d               | 512
+14  | classifier.mnet.features.1.conv.2    | BatchNorm2d          | 32
+15  | classifier.mnet.features.2           | InvertedResidual     | 5.1 K
+16  | classifier.mnet.features.2.conv      | Sequential           | 5.1 K
+17  | classifier.mnet.features.2.conv.0    | Conv2dNormActivation | 1.7 K
+18  | classifier.mnet.features.2.conv.0.0  | Conv2d               | 1.5 K
+19  | classifier.mnet.features.2.conv.0.1  | BatchNorm2d          | 192
+20  | classifier.mnet.features.2.conv.0.2  | ReLU6                | 0
+21  | classifier.mnet.features.2.conv.1    | Conv2dNormActivation | 1.1 K
+22  | classifier.mnet.features.2.conv.1.0  | Conv2d               | 864
+23  | classifier.mnet.features.2.conv.1.1  | BatchNorm2d          | 192
+24  | classifier.mnet.features.2.conv.1.2  | ReLU6                | 0
+25  | classifier.mnet.features.2.conv.2    | Conv2d               | 2.3 K
+26  | classifier.mnet.features.2.conv.3    | BatchNorm2d          | 48
+27  | classifier.mnet.features.3           | InvertedResidual     | 8.8 K
+28  | classifier.mnet.features.3.conv      | Sequential           | 8.8 K
+29  | classifier.mnet.features.3.conv.0    | Conv2dNormActivation | 3.7 K
+30  | classifier.mnet.features.3.conv.0.0  | Conv2d               | 3.5 K
+31  | classifier.mnet.features.3.conv.0.1  | BatchNorm2d          | 288
+32  | classifier.mnet.features.3.conv.0.2  | ReLU6                | 0
+33  | classifier.mnet.features.3.conv.1    | Conv2dNormActivation | 1.6 K
+34  | classifier.mnet.features.3.conv.1.0  | Conv2d               | 1.3 K
+35  | classifier.mnet.features.3.conv.1.1  | BatchNorm2d          | 288
+36  | classifier.mnet.features.3.conv.1.2  | ReLU6                | 0
+37  | classifier.mnet.features.3.conv.2    | Conv2d               | 3.5 K
+38  | classifier.mnet.features.3.conv.3    | BatchNorm2d          | 48
+39  | classifier.mnet.features.4           | InvertedResidual     | 10.0 K
+40  | classifier.mnet.features.4.conv      | Sequential           | 10.0 K
+41  | classifier.mnet.features.4.conv.0    | Conv2dNormActivation | 3.7 K
+42  | classifier.mnet.features.4.conv.0.0  | Conv2d               | 3.5 K
+43  | classifier.mnet.features.4.conv.0.1  | BatchNorm2d          | 288
+44  | classifier.mnet.features.4.conv.0.2  | ReLU6                | 0
+45  | classifier.mnet.features.4.conv.1    | Conv2dNormActivation | 1.6 K
+46  | classifier.mnet.features.4.conv.1.0  | Conv2d               | 1.3 K
+47  | classifier.mnet.features.4.conv.1.1  | BatchNorm2d          | 288
+48  | classifier.mnet.features.4.conv.1.2  | ReLU6                | 0
+49  | classifier.mnet.features.4.conv.2    | Conv2d               | 4.6 K
+50  | classifier.mnet.features.4.conv.3    | BatchNorm2d          | 64
+51  | classifier.mnet.features.5           | InvertedResidual     | 14.8 K
+52  | classifier.mnet.features.5.conv      | Sequential           | 14.8 K
+53  | classifier.mnet.features.5.conv.0    | Conv2dNormActivation | 6.5 K
+54  | classifier.mnet.features.5.conv.0.0  | Conv2d               | 6.1 K
+55  | classifier.mnet.features.5.conv.0.1  | BatchNorm2d          | 384
+56  | classifier.mnet.features.5.conv.0.2  | ReLU6                | 0
+57  | classifier.mnet.features.5.conv.1    | Conv2dNormActivation | 2.1 K
+58  | classifier.mnet.features.5.conv.1.0  | Conv2d               | 1.7 K
+59  | classifier.mnet.features.5.conv.1.1  | BatchNorm2d          | 384
+60  | classifier.mnet.features.5.conv.1.2  | ReLU6                | 0
+61  | classifier.mnet.features.5.conv.2    | Conv2d               | 6.1 K
+62  | classifier.mnet.features.5.conv.3    | BatchNorm2d          | 64
+63  | classifier.mnet.features.6           | InvertedResidual     | 14.8 K
+64  | classifier.mnet.features.6.conv      | Sequential           | 14.8 K
+65  | classifier.mnet.features.6.conv.0    | Conv2dNormActivation | 6.5 K
+66  | classifier.mnet.features.6.conv.0.0  | Conv2d               | 6.1 K
+67  | classifier.mnet.features.6.conv.0.1  | BatchNorm2d          | 384
+68  | classifier.mnet.features.6.conv.0.2  | ReLU6                | 0
+69  | classifier.mnet.features.6.conv.1    | Conv2dNormActivation | 2.1 K
+70  | classifier.mnet.features.6.conv.1.0  | Conv2d               | 1.7 K
+71  | classifier.mnet.features.6.conv.1.1  | BatchNorm2d          | 384
+72  | classifier.mnet.features.6.conv.1.2  | ReLU6                | 0
+73  | classifier.mnet.features.6.conv.2    | Conv2d               | 6.1 K
+74  | classifier.mnet.features.6.conv.3    | BatchNorm2d          | 64
+75  | classifier.mnet.features.7           | InvertedResidual     | 21.1 K
+76  | classifier.mnet.features.7.conv      | Sequential           | 21.1 K
+77  | classifier.mnet.features.7.conv.0    | Conv2dNormActivation | 6.5 K
+78  | classifier.mnet.features.7.conv.0.0  | Conv2d               | 6.1 K
+79  | classifier.mnet.features.7.conv.0.1  | BatchNorm2d          | 384
+80  | classifier.mnet.features.7.conv.0.2  | ReLU6                | 0
+81  | classifier.mnet.features.7.conv.1    | Conv2dNormActivation | 2.1 K
+82  | classifier.mnet.features.7.conv.1.0  | Conv2d               | 1.7 K
+83  | classifier.mnet.features.7.conv.1.1  | BatchNorm2d          | 384
+84  | classifier.mnet.features.7.conv.1.2  | ReLU6                | 0
+85  | classifier.mnet.features.7.conv.2    | Conv2d               | 12.3 K
+86  | classifier.mnet.features.7.conv.3    | BatchNorm2d          | 128
+87  | classifier.mnet.features.8           | InvertedResidual     | 54.3 K
+88  | classifier.mnet.features.8.conv      | Sequential           | 54.3 K
+89  | classifier.mnet.features.8.conv.0    | Conv2dNormActivation | 25.3 K
+90  | classifier.mnet.features.8.conv.0.0  | Conv2d               | 24.6 K
+91  | classifier.mnet.features.8.conv.0.1  | BatchNorm2d          | 768
+92  | classifier.mnet.features.8.conv.0.2  | ReLU6                | 0
+93  | classifier.mnet.features.8.conv.1    | Conv2dNormActivation | 4.2 K
+94  | classifier.mnet.features.8.conv.1.0  | Conv2d               | 3.5 K
+95  | classifier.mnet.features.8.conv.1.1  | BatchNorm2d          | 768
+96  | classifier.mnet.features.8.conv.1.2  | ReLU6                | 0
+97  | classifier.mnet.features.8.conv.2    | Conv2d               | 24.6 K
+98  | classifier.mnet.features.8.conv.3    | BatchNorm2d          | 128
+99  | classifier.mnet.features.9           | InvertedResidual     | 54.3 K
+100 | classifier.mnet.features.9.conv      | Sequential           | 54.3 K
+101 | classifier.mnet.features.9.conv.0    | Conv2dNormActivation | 25.3 K
+102 | classifier.mnet.features.9.conv.0.0  | Conv2d               | 24.6 K
+103 | classifier.mnet.features.9.conv.0.1  | BatchNorm2d          | 768
+104 | classifier.mnet.features.9.conv.0.2  | ReLU6                | 0
+105 | classifier.mnet.features.9.conv.1    | Conv2dNormActivation | 4.2 K
+106 | classifier.mnet.features.9.conv.1.0  | Conv2d               | 3.5 K
+107 | classifier.mnet.features.9.conv.1.1  | BatchNorm2d          | 768
+108 | classifier.mnet.features.9.conv.1.2  | ReLU6                | 0
+109 | classifier.mnet.features.9.conv.2    | Conv2d               | 24.6 K
+110 | classifier.mnet.features.9.conv.3    | BatchNorm2d          | 128
+111 | classifier.mnet.features.10          | InvertedResidual     | 54.3 K
+112 | classifier.mnet.features.10.conv     | Sequential           | 54.3 K
+113 | classifier.mnet.features.10.conv.0   | Conv2dNormActivation | 25.3 K
+114 | classifier.mnet.features.10.conv.0.0 | Conv2d               | 24.6 K
+115 | classifier.mnet.features.10.conv.0.1 | BatchNorm2d          | 768
+116 | classifier.mnet.features.10.conv.0.2 | ReLU6                | 0
+117 | classifier.mnet.features.10.conv.1   | Conv2dNormActivation | 4.2 K
+118 | classifier.mnet.features.10.conv.1.0 | Conv2d               | 3.5 K
+119 | classifier.mnet.features.10.conv.1.1 | BatchNorm2d          | 768
+120 | classifier.mnet.features.10.conv.1.2 | ReLU6                | 0
+121 | classifier.mnet.features.10.conv.2   | Conv2d               | 24.6 K
+122 | classifier.mnet.features.10.conv.3   | BatchNorm2d          | 128
+123 | classifier.mnet.features.11          | InvertedResidual     | 66.6 K
+124 | classifier.mnet.features.11.conv     | Sequential           | 66.6 K
+125 | classifier.mnet.features.11.conv.0   | Conv2dNormActivation | 25.3 K
+126 | classifier.mnet.features.11.conv.0.0 | Conv2d               | 24.6 K
+127 | classifier.mnet.features.11.conv.0.1 | BatchNorm2d          | 768
+128 | classifier.mnet.features.11.conv.0.2 | ReLU6                | 0
+129 | classifier.mnet.features.11.conv.1   | Conv2dNormActivation | 4.2 K
+130 | classifier.mnet.features.11.conv.1.0 | Conv2d               | 3.5 K
+131 | classifier.mnet.features.11.conv.1.1 | BatchNorm2d          | 768
+132 | classifier.mnet.features.11.conv.1.2 | ReLU6                | 0
+133 | classifier.mnet.features.11.conv.2   | Conv2d               | 36.9 K
+134 | classifier.mnet.features.11.conv.3   | BatchNorm2d          | 192
+135 | classifier.mnet.features.12          | InvertedResidual     | 118 K
+136 | classifier.mnet.features.12.conv     | Sequential           | 118 K
+137 | classifier.mnet.features.12.conv.0   | Conv2dNormActivation | 56.4 K
+138 | classifier.mnet.features.12.conv.0.0 | Conv2d               | 55.3 K
+139 | classifier.mnet.features.12.conv.0.1 | BatchNorm2d          | 1.2 K
+140 | classifier.mnet.features.12.conv.0.2 | ReLU6                | 0
+141 | classifier.mnet.features.12.conv.1   | Conv2dNormActivation | 6.3 K
+142 | classifier.mnet.features.12.conv.1.0 | Conv2d               | 5.2 K
+143 | classifier.mnet.features.12.conv.1.1 | BatchNorm2d          | 1.2 K
+144 | classifier.mnet.features.12.conv.1.2 | ReLU6                | 0
+145 | classifier.mnet.features.12.conv.2   | Conv2d               | 55.3 K
+146 | classifier.mnet.features.12.conv.3   | BatchNorm2d          | 192
+147 | classifier.mnet.features.13          | InvertedResidual     | 118 K
+148 | classifier.mnet.features.13.conv     | Sequential           | 118 K
+149 | classifier.mnet.features.13.conv.0   | Conv2dNormActivation | 56.4 K
+150 | classifier.mnet.features.13.conv.0.0 | Conv2d               | 55.3 K
+151 | classifier.mnet.features.13.conv.0.1 | BatchNorm2d          | 1.2 K
+152 | classifier.mnet.features.13.conv.0.2 | ReLU6                | 0
+153 | classifier.mnet.features.13.conv.1   | Conv2dNormActivation | 6.3 K
+154 | classifier.mnet.features.13.conv.1.0 | Conv2d               | 5.2 K
+155 | classifier.mnet.features.13.conv.1.1 | BatchNorm2d          | 1.2 K
+156 | classifier.mnet.features.13.conv.1.2 | ReLU6                | 0
+157 | classifier.mnet.features.13.conv.2   | Conv2d               | 55.3 K
+158 | classifier.mnet.features.13.conv.3   | BatchNorm2d          | 192
+159 | classifier.mnet.features.14          | InvertedResidual     | 155 K
+160 | classifier.mnet.features.14.conv     | Sequential           | 155 K
+161 | classifier.mnet.features.14.conv.0   | Conv2dNormActivation | 56.4 K
+162 | classifier.mnet.features.14.conv.0.0 | Conv2d               | 55.3 K
+163 | classifier.mnet.features.14.conv.0.1 | BatchNorm2d          | 1.2 K
+164 | classifier.mnet.features.14.conv.0.2 | ReLU6                | 0
+165 | classifier.mnet.features.14.conv.1   | Conv2dNormActivation | 6.3 K
+166 | classifier.mnet.features.14.conv.1.0 | Conv2d               | 5.2 K
+167 | classifier.mnet.features.14.conv.1.1 | BatchNorm2d          | 1.2 K
+168 | classifier.mnet.features.14.conv.1.2 | ReLU6                | 0
+169 | classifier.mnet.features.14.conv.2   | Conv2d               | 92.2 K
+170 | classifier.mnet.features.14.conv.3   | BatchNorm2d          | 320
+171 | classifier.mnet.features.15          | InvertedResidual     | 320 K
+172 | classifier.mnet.features.15.conv     | Sequential           | 320 K
+173 | classifier.mnet.features.15.conv.0   | Conv2dNormActivation | 155 K
+174 | classifier.mnet.features.15.conv.0.0 | Conv2d               | 153 K
+175 | classifier.mnet.features.15.conv.0.1 | BatchNorm2d          | 1.9 K
+176 | classifier.mnet.features.15.conv.0.2 | ReLU6                | 0
+177 | classifier.mnet.features.15.conv.1   | Conv2dNormActivation | 10.6 K
+178 | classifier.mnet.features.15.conv.1.0 | Conv2d               | 8.6 K
+179 | classifier.mnet.features.15.conv.1.1 | BatchNorm2d          | 1.9 K
+180 | classifier.mnet.features.15.conv.1.2 | ReLU6                | 0
+181 | classifier.mnet.features.15.conv.2   | Conv2d               | 153 K
+182 | classifier.mnet.features.15.conv.3   | BatchNorm2d          | 320
+183 | classifier.mnet.features.16          | InvertedResidual     | 320 K
+184 | classifier.mnet.features.16.conv     | Sequential           | 320 K
+185 | classifier.mnet.features.16.conv.0   | Conv2dNormActivation | 155 K
+186 | classifier.mnet.features.16.conv.0.0 | Conv2d               | 153 K
+187 | classifier.mnet.features.16.conv.0.1 | BatchNorm2d          | 1.9 K
+188 | classifier.mnet.features.16.conv.0.2 | ReLU6                | 0
+189 | classifier.mnet.features.16.conv.1   | Conv2dNormActivation | 10.6 K
+190 | classifier.mnet.features.16.conv.1.0 | Conv2d               | 8.6 K
+191 | classifier.mnet.features.16.conv.1.1 | BatchNorm2d          | 1.9 K
+192 | classifier.mnet.features.16.conv.1.2 | ReLU6                | 0
+193 | classifier.mnet.features.16.conv.2   | Conv2d               | 153 K
+194 | classifier.mnet.features.16.conv.3   | BatchNorm2d          | 320
+195 | classifier.mnet.features.17          | InvertedResidual     | 473 K
+196 | classifier.mnet.features.17.conv     | Sequential           | 473 K
+197 | classifier.mnet.features.17.conv.0   | Conv2dNormActivation | 155 K
+198 | classifier.mnet.features.17.conv.0.0 | Conv2d               | 153 K
+199 | classifier.mnet.features.17.conv.0.1 | BatchNorm2d          | 1.9 K
+200 | classifier.mnet.features.17.conv.0.2 | ReLU6                | 0
+201 | classifier.mnet.features.17.conv.1   | Conv2dNormActivation | 10.6 K
+202 | classifier.mnet.features.17.conv.1.0 | Conv2d               | 8.6 K
+203 | classifier.mnet.features.17.conv.1.1 | BatchNorm2d          | 1.9 K
+204 | classifier.mnet.features.17.conv.1.2 | ReLU6                | 0
+205 | classifier.mnet.features.17.conv.2   | Conv2d               | 307 K
+206 | classifier.mnet.features.17.conv.3   | BatchNorm2d          | 640
+207 | classifier.mnet.features.18          | Conv2dNormActivation | 412 K
+208 | classifier.mnet.features.18.0        | Conv2d               | 409 K
+209 | classifier.mnet.features.18.1        | BatchNorm2d          | 2.6 K
+210 | classifier.mnet.features.18.2        | ReLU6                | 0
+211 | classifier.mnet.classifier           | Sequential           | 3.8 K
+212 | classifier.mnet.classifier.0         | Dropout              | 0
+213 | classifier.mnet.classifier.1         | Linear               | 3.8 K
+214 | critrion                             | CrossEntropyLoss     | 0
+--------------------------------------------------------------------------------
+3.8 K     Trainable params
+2.2 M     Non-trainable params
+2.2 M     Total params
+8.911     Total estimated model params size (MB)

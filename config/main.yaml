@@ -7,7 +7,7 @@ defaults:
 mlflow_experiment_name: chest_disease_classification
 model_dir_output: experiments/training_outputs
 mlflow_tracking_uri: sqlite:///mlflow.db
-
+dataset_dvc: data/Chest_X_Ray.dvc
 data:
   path: data/raw/Chest_X_Ray
   path_dst: data/final

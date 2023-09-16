@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/mohsen/Desktop/Postdoc_Upa/packages/dataScience/cicd/projects/cicd_mlflow_dvc_aws/cicd_mlflow_dvc_aws_1/mlruns/915976063423053130/cef1bdb34e2a41ee9d042d8f3cfb5c43/artifacts
+end_time: 1694866067322
+entry_point_name: ''
+experiment_id: '915976063423053130'
+lifecycle_stage: active
+run_id: cef1bdb34e2a41ee9d042d8f3cfb5c43
+run_name: chest_diseases_pt_cnn_20230916-140734
+run_uuid: cef1bdb34e2a41ee9d042d8f3cfb5c43
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1694866054494
+status: 4
+tags: []
+user_id: mohsen
