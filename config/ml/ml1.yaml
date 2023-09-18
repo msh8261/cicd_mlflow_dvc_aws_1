@@ -3,17 +3,21 @@ model_name: chest_diseases_pt_cnn
 model_save_name: chest_diseases_pt_cnn.pt
 model_architecture: mobilenetv2
 
+monitor: "val_accuracy"
+mode: "max"
+
 use_imagenet_pretrained_weights: True
 
-params: {
+best_params: {
     "model": model_architecture,
     "dataset_version": 01,
     "seed": 21,
     "batch_size": 32,
-    "num_workers": 8,
+    "num_workers": 4,
     "gpus": 0,
     "precision": 32,
     "max_epochs": 25,
+    "n_layers": 1280,
     "dropout": 0.2,
     "lr": 0.01,
     "use_imagenet_pretrained_weights": use_imagenet_pretrained_weights,

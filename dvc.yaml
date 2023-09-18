@@ -11,7 +11,7 @@ stages:
     outs:
       - data/final
   train:
-    cmd: python ml/train.py
+    cmd: python ml/tracking_train.py
     params:
         - config/ml/ml1.yaml:
     deps:

@@ -10,10 +10,15 @@ from ml.mobilenet_model import CustomMobileNetv2
 class XrayClassifier(pl.LightningModule):
     """class to set up automatically to train and test."""
 
-    def __init__(self, imagenet_weights=True, dropout=0.0, lr=0.001):
+    def __init__(
+        self, imagenet_weights=True, n_layers=1280, dropout=0.0, lr=0.001
+    ):
         super().__init__()
         self.classifier = CustomMobileNetv2(
-            num_class=3, pretrained=imagenet_weights, dropout=dropout
+            num_class=3,
+            pretrained=imagenet_weights,
+            n_layers=n_layers,
+            dropout=dropout,
         )
         self.lr = lr
         self.critrion = torch.nn.CrossEntropyLoss()
@@ -33,9 +38,10 @@ class XrayClassifier(pl.LightningModule):
         x, y, _ = batch
         y = y.unsqueeze(axis=1)
         # y = y.long()
-        cls = self(x)
-        cls = F.softmax(cls.float(), dim=1)
-        y_pred = cls.data.max(dim=1)[1].unsqueeze(axis=1)
+        # cls = self(x)
+        # cls = F.softmax(cls.float(), dim=1)
+        # y_pred = cls.data.max(dim=1)[1].unsqueeze(axis=1)
+        y_pred = self(x)
         loss = self.critrion(y_pred.float(), y.float())
         loss.requires_grad = True
         loss.backward()

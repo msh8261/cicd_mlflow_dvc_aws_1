@@ -3,6 +3,7 @@ import os
 import re
 import sys
 import time
+from math import sqrt
 
 import mlflow
 import pandas as pd
@@ -11,7 +12,9 @@ import torch
 from loguru import logger
 from mlflow.exceptions import MlflowException
 from mlflow.tracking import MlflowClient
+from prefect import flow, task
 from pytorch_lightning import loggers as pl_loggers
+from sklearn.metrics import mean_squared_error, r2_score
 from torch.utils.data import DataLoader
 
 from ml.classifier import XrayClassifier
@@ -23,8 +26,9 @@ sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
 )
 
-
 config = load_config.fn()
+
+gpus = 1 if torch.cuda.is_available() else 0
 
 
 def print_auto_logged_info(r):
@@ -50,50 +54,13 @@ def get_dvc_rev(dvc_fp):
     return revs[0] if revs else ""
 
 
-if __name__ == "__main__":
-    # Set random seeds for reproducibility purpose
-    seed = 42
-    pl.seed_everything(seed=seed, workers=True)
-
-    # Create an experiment. By default, if not specified, the "default" experiment is used. It is recommended to not use
-    # the default experiment and explicitly set up your own for better readability and tracking experience.
-    client = MlflowClient()
-    experiment_name = config.mlflow_experiment_name
-    model_architecture = config.ml.model_architecture
-    timestamp = time.strftime("%Y%m%d-%H%M%S")
-    model_name = f"{config.ml.model_name}_{timestamp}"
-
-    run_name = model_name
-    try:
-        experiment_id = client.create_experiment(experiment_name)
-        experiment = client.get_experiment(experiment_id)
-    except MlflowException:
-        experiment = client.get_experiment_by_name(experiment_name)
-        experiment_id = experiment.experiment_id
-
-    # Fetch experiment metadata information
-    logger.info(f"Name: {experiment.name}")
-    logger.info(f"Experiment_id: {experiment.experiment_id}")
-    logger.info(f"Artifact Location: {experiment.artifact_location}")
-    logger.info(f"Tags: {experiment.tags}")
-    logger.info(f"Lifecycle_stage: {experiment.lifecycle_stage}")
-
-    os.makedirs(config.model_dir_output, exist_ok=True)
-    training_output_dir = os.path.join(config.model_dir_output, model_name)
-    checkpoints_dir = os.path.join(training_output_dir, "checkpoints")
-    # training_output_dir(checkpoints_dir)
-    # dataset_dvc_fp = config.dataset_dvc
-    # dataset_version = get_dvc_rev(dataset_dvc_fp)
-
-    gpus = 1 if torch.cuda.is_available() else 0
-
-    params = config.ml.params
-
+@task(retries=3, retry_delay_seconds=2)
+def get_dataloders(params):
     # initialize the data set splits
     df_train = pd.read_csv(
         os.path.join(config.data.path_dst, config.data.train.name)
     )
-    image_size = (160, 160)
+    image_size = config.etl.img_size
     transform_train, transform_val = get_preprocessor(
         image_size, config.ml.use_imagenet_pretrained_weights
     )
@@ -124,18 +91,70 @@ if __name__ == "__main__":
         batch_size=params["batch_size"],
         num_workers=params["num_workers"],
     )
+    df_test = pd.read_csv(
+        os.path.join(config.data.path_dst, config.data.test.name)
+    )
+    dataset_test = XrayDataset(
+        df_test,
+        transform_val,
+        image_size,
+        config.ml.use_imagenet_pretrained_weights,
+    )
+    dataloader_test = DataLoader(
+        dataset_test,
+        batch_size=params["batch_size"],
+        num_workers=params["num_workers"],
+    )
+    return dataloader_train, dataloader_validation, dataloader_test
 
-    # params["train_size"] = len(dataset_train)
-    # params["val_size"] = len(dataset_validation)
+
+@task
+def train(
+    params, dataloader_train, dataloader_validation, dataloader_test
+) -> None:
+    """train a model with best hyperparams and write everything out"""
+    # Set random seeds for reproducibility purpose
+    seed = 42
+    pl.seed_everything(seed=seed, workers=True)
+
+    # Create an experiment. By default, if not specified, the "default" experiment is used. It is recommended to not use
+    # the default experiment and explicitly set up your own for better readability and tracking experience.
+    client = MlflowClient()
+    experiment_name = config.mlflow_experiment_name
+    # model_architecture = config.ml.model_architecture
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+    model_name = f"{config.ml.model_name}_{timestamp}"
+
+    run_name = model_name
+    try:
+        experiment_id = client.create_experiment(experiment_name)
+        experiment = client.get_experiment(experiment_id)
+    except MlflowException:
+        experiment = client.get_experiment_by_name(experiment_name)
+        experiment_id = experiment.experiment_id
+
+    # Fetch experiment metadata information
+    logger.info(f"Name: {experiment.name}")
+    logger.info(f"Experiment_id: {experiment.experiment_id}")
+    logger.info(f"Artifact Location: {experiment.artifact_location}")
+    logger.info(f"Tags: {experiment.tags}")
+    logger.info(f"Lifecycle_stage: {experiment.lifecycle_stage}")
+
+    os.makedirs(config.model_dir_output, exist_ok=True)
+    training_output_dir = os.path.join(config.model_dir_output, model_name)
+    checkpoints_dir = os.path.join(training_output_dir, "checkpoints")
+    # dataset_dvc_fp = config.dataset_dvc
+    # dataset_version = get_dvc_rev(dataset_dvc_fp)
 
     # model
     model = XrayClassifier(
         imagenet_weights=config.ml.use_imagenet_pretrained_weights,
+        n_layers=params["n_layers"],
         dropout=params["dropout"],
         lr=params["lr"],
     )
-    monitor = "val_accuracy"
-    mode = "max"
+    monitor = config.ml.monitor
+    mode = config.ml.mode
     checkpoint_name_format = "{epoch:03d}_{" + monitor + ":.3f}"
 
     callbacks = [
@@ -168,7 +187,6 @@ if __name__ == "__main__":
         deterministic=True,
         logger=tensorboard_logger,
     )
-
     # Activate auto logging for pytorch lightning module
     mlflow.pytorch.autolog()
 
@@ -180,13 +198,36 @@ if __name__ == "__main__":
         logger.info("artifact uri:", mlflow.get_artifact_uri())
         logger.info("start training")
 
-        # log training parameters
-        mlflow.log_params(params)
-
         # # save dataset's dvc file
         # mlflow.log_artifact(dataset_dvc_fp)
 
         trainer.fit(model, dataloader_train, dataloader_validation)
         mlflow.log_artifacts(training_output_dir)
 
+        # log training parameters
+        mlflow.log_params(params)
+        _, y_test = dataloader_test[:]
+        y_pred = trainer.predict(model, dataloaders=dataloader_test)
+        # Log desired metrics
+        mlflow.log_metric("mse", mean_squared_error(y_test, y_pred))
+        mlflow.log_metric("rmse", sqrt(mean_squared_error(y_test, y_pred)))
+        mlflow.log_metric("r2", r2_score(y_test, y_pred))
+
     print_auto_logged_info(mlflow.get_run(run_id=run.info.run_id))
+
+
+@flow
+def main():
+    """The main training pipeline"""
+
+    params = config.ml.best_params
+
+    dataloader_train, dataloader_validation, dataloader_test = get_dataloders(
+        params
+    )
+
+    train(params, dataloader_train, dataloader_validation, dataloader_test)
+
+
+if __name__ == "__main__":
+    main()

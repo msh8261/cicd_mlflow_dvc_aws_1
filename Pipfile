@@ -34,7 +34,6 @@ pillow = "*"
 torch = "*"
 torchvision = "*"
 torchaudio = "*"
-dvc-s3 = "*"
 
 [dev-packages]
 
